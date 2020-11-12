@@ -1,0 +1,589 @@
+{
+	"info": {
+		"_postman_id": "bafca51f-30b4-4b47-aa64-e6daaaf04ce6",
+		"name": "DA4R - Grid Object Placement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "12: New 2-legged token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "58ab738a-5cb7-4063-bd40-46ef8c585910",
+						"exec": [
+							"var body = JSON.parse(responseBody);",
+							"pm.environment.set(\"2-legged_access_token\", body[\"access_token\"]);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "code:all data:read data:write bucket:create bucket:read account:read",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_domain}}/authentication/v1/authenticate",
+					"host": [
+						"{{base_domain}}"
+					],
+					"path": [
+						"authentication",
+						"v1",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13: Create a NickName",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b5bc271e-0767-4087-8f4f-4665afb10c20",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{2-legged_access_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"nickname\":\"OgaryuPostman\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_domain}}{{da_url}}/forgeapps/me",
+					"host": [
+						"{{base_domain}}{{da_url}}"
+					],
+					"path": [
+						"forgeapps",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "14: Create app bundle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1f687b48-19ee-4efe-868c-c2c0965560b6",
+						"exec": [
+							"var body = JSON.parse(responseBody);",
+							"pm.environment.set(\"appBundleUrl\", body[\"uploadParameters\"][\"endpointURL\"]);",
+							"pm.environment.set(\"appBundleVersion\", body[\"version\"]);",
+							"pm.environment.set(\"appBundleFormDataKey\", body[\"uploadParameters\"][\"formData\"][\"key\"]);",
+							"pm.environment.set(\"appBundleFormDataPolicy\", body[\"uploadParameters\"][\"formData\"][\"policy\"]);",
+							"pm.environment.set(\"appBundleFormDataSignature\", body[\"uploadParameters\"][\"formData\"][\"x-amz-signature\"]);",
+							"pm.environment.set(\"appBundleFormDataCredential\", body[\"uploadParameters\"][\"formData\"][\"x-amz-credential\"]);",
+							"pm.environment.set(\"appBundleFormDataDate\", body[\"uploadParameters\"][\"formData\"][\"x-amz-date\"]);",
+							"pm.environment.set(\"appBundleFormDataToken\", body[\"uploadParameters\"][\"formData\"][\"x-amz-security-token\"]);",
+							"pm.environment.set(\"appBundleFormRedirect\", body[\"uploadParameters\"][\"formData\"][\"success_action_redirect\"]);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{2-legged_access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": \"{{appbundleName}}\",\r\n\t\"engine\": \"Autodesk.Revit+2021\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_domain}}{{da_url}}/appbundles",
+					"host": [
+						"{{base_domain}}{{da_url}}"
+					],
+					"path": [
+						"appbundles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "15: Create a new app bundle alias",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{2-legged_access_token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"version\": 1,\r\n  \"id\": \"test\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_domain}}{{da_url}}/appbundles/{{appbundleName}}/aliases",
+					"host": [
+						"{{base_domain}}{{da_url}}"
+					],
+					"path": [
+						"appbundles",
+						"{{appbundleName}}",
+						"aliases"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "16: Upload app bundle to Design Automation",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c2aea8a5-1280-4e57-b076-bf2b07ac5ad5",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5eb0de05-2ae7-4002-b987-08d2d51f384f",
+						"exec": [
+							"pm.environment.unset(\"deleteWallsAppFormDataKey\");",
+							"pm.environment.unset(\"deleteWallsAppFormDataPolicy\");",
+							"pm.environment.unset(\"deleteWallsAppFormDataSignature\");",
+							"pm.environment.unset(\"deleteWallsAppFormDataCredential\");",
+							"pm.environment.unset(\"deleteWallsAppFormDataDate\");",
+							"pm.environment.unset(\"deleteWallsAppFormDataToken\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "key",
+							"value": "{{appBundleFormDataKey}}",
+							"type": "text"
+						},
+						{
+							"key": "content-type",
+							"value": "application/octet-stream",
+							"type": "text"
+						},
+						{
+							"key": "policy",
+							"value": "{{appBundleFormDataPolicy}}",
+							"type": "text"
+						},
+						{
+							"key": "success_action_status",
+							"value": "200",
+							"type": "text"
+						},
+						{
+							"key": "x-amz-signature",
+							"value": "{{appBundleFormDataSignature}}",
+							"type": "text"
+						},
+						{
+							"key": "x-amz-credential",
+							"value": "{{appBundleFormDataCredential}}",
+							"type": "text"
+						},
+						{
+							"key": "x-amz-algorithm",
+							"value": "AWS4-HMAC-SHA256",
+							"type": "text"
+						},
+						{
+							"key": "x-amz-date",
+							"value": "{{appBundleFormDataDate}}",
+							"type": "text"
+						},
+						{
+							"key": "x-amz-server-side-encryption",
+							"value": "AES256",
+							"type": "text"
+						},
+						{
+							"key": "x-amz-security-token",
+							"value": "{{appBundleFormDataToken}}",
+							"type": "text"
+						},
+						{
+							"key": "success_action_redirect",
+							"value": "{{appBundleFormRedirect}}",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/ogasawr/Desktop/Forge 1 Day Workshop Design Automation - BIM360 連携編/4. Revit アドインを DA 用パッケージに変換/RevitIFCExportApp.zip"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{appBundleUrl}}",
+					"host": [
+						"{{appBundleUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "17: Create activity - Revit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "394d3eae-b7cf-4ce5-b48f-cf5196636fca",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{2-legged_access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": \"{{activityName}}\",\r\n\t\"commandLine\": [ \"$(engine.path)\\\\\\\\revitcoreconsole.exe /i \\\"$(args[inputRvtFile].path)\\\" /al \\\"$(appbundles[{{appbundleName}}].path)\\\" /l JPN\" ],\r\n\t\"parameters\": {\r\n\t  \"inputRvtFile\": {\r\n\t\t\"zip\": false,\r\n\t\t\"ondemand\": false,\r\n\t\t\"verb\": \"get\",\r\n\t\t\"description\": \"Input Revit model\",\r\n\t\t\"required\": true\r\n\t  },\r\n      \"inputFamilyFile\": {\r\n\t\t\"zip\": false,\r\n\t\t\"ondemand\": false,\r\n\t\t\"verb\": \"get\",\r\n\t\t\"description\": \"Input Family model\",\r\n\t\t\"required\": true,\r\n        \"localName\": \"family.rvt\"\r\n\t  },\r\n\t  \"inputJsonFile\": {\r\n\t\t\"zip\": false,\r\n\t\t\"ondemand\": false,\r\n\t\t\"verb\": \"get\",\r\n\t\t\"description\": \"Input param json\",\r\n\t\t\"required\": true,\r\n\t\t\"localName\": \"params.json\"\r\n\t  },\r\n\t  \"resultZipFile\": {\r\n\t\t\"zip\": true,\r\n\t\t\"ondemand\": false,\r\n\t\t\"verb\": \"put\",\r\n\t\t\"description\": \"Results\",\r\n\t\t\"required\": true,\r\n\t\t\"localName\": \"exportedDwgs\"\r\n\t  }\r\n\t},\r\n\t\"engine\": \"Autodesk.Revit+2021\",\r\n\t\"appbundles\": [ \"{{dasNickName}}.{{appbundleName}}+{{appBundleAlias}}\" ],\r\n\t\"description\": \".\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_domain}}{{da_url}}/activities",
+					"host": [
+						"{{base_domain}}{{da_url}}"
+					],
+					"path": [
+						"activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "18: Create activity alias",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{2-legged_access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"test\",\r\n    \"version\":1\r\n}"
+				},
+				"url": {
+					"raw": "{{base_domain}}{{da_url}}/activities/{{activityName}}/aliases",
+					"host": [
+						"{{base_domain}}{{da_url}}"
+					],
+					"path": [
+						"activities",
+						"{{activityName}}",
+						"aliases"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "19: Send Workitem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f3d0e19f-cfc8-4697-a16f-6c10a4ee41b1",
+						"exec": [
+							"var body = JSON.parse(responseBody);",
+							"pm.environment.set(\"workitemId\", body[\"id\"]);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{2-legged_access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"activityId\": \"{{dasNickName}}.{{activityName}}+{{activityAlias}}\",\r\n  \"arguments\": {\r\n    \"inputRvtFile\": {\r\n      \"url\": \"{{bim360_input_revit_model_url}}\",\r\n      \"headers\":{\r\n      \t\"Authorization\":\"Bearer {{3-legged_access_token}}\"\r\n      }\r\n    },\r\n    \"inputJsonFile\":{\r\n    \t\"url\": \"data:application/json,{\\\"CurtainWallUniqueId\\\":\\\"5fc51318-72df-41be-8496-349f63ca48e1-033e3825\\\", \\\"OutputIFCFileName\\\":\\\"model.ifc\\\", \\\"OutputCSVFileName\\\":\\\"curtain_wall.csv\\\"}\"\r\n    },\r\n    \"resultIfcFile\": {\r\n      \"verb\": \"put\",\r\n      \"url\": \"{{bim360_output_ifc_file_url}}\",\r\n      \"headers\":{\r\n      \t\"Authorization\":\"Bearer {{3-legged_access_token}}\"\r\n      }\r\n    },\r\n    \"resultCsvFile\": {\r\n      \"verb\": \"put\",\r\n      \"url\": \"{{bim360_output_csv_file_url}}\",\r\n      \"headers\":{\r\n      \t\"Authorization\":\"Bearer {{3-legged_access_token}}\"\r\n      }\r\n    }\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{base_domain}}{{da_url}}/workitems",
+					"host": [
+						"{{base_domain}}{{da_url}}"
+					],
+					"path": [
+						"workitems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "20: Get Workitem status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{2-legged_access_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}{{da_url}}/workitems/{{workitemId}}",
+					"host": [
+						"{{base_domain}}{{da_url}}"
+					],
+					"path": [
+						"workitems",
+						"{{workitemId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "appendix-Get list of appbundles",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{2-legged_access_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}{{da_url}}/appbundles",
+					"host": [
+						"{{base_domain}}{{da_url}}"
+					],
+					"path": [
+						"appbundles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "appendix-Get list of activities",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{2-legged_access_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_domain}}{{da_url}}/activities",
+					"host": [
+						"{{base_domain}}{{da_url}}"
+					],
+					"path": [
+						"activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "appendix-Delete app bundle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b248dedf-7e31-42a9-9f5e-036d51f83855",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{2-legged_access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_domain}}{{da_url}}/appbundles/{{appbundleName}}",
+					"host": [
+						"{{base_domain}}{{da_url}}"
+					],
+					"path": [
+						"appbundles",
+						"{{appbundleName}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "appendix-Delete activity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "58aa1543-68b5-4bd3-8aa5-a0ec7fd6bc03",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{2-legged_access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_domain}}{{da_url}}/activities/{{activityName}}",
+					"host": [
+						"{{base_domain}}{{da_url}}"
+					],
+					"path": [
+						"activities",
+						"{{activityName}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

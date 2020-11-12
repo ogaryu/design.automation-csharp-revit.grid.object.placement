@@ -1,0 +1,101 @@
+﻿html, body{
+  min-height: 100%;
+  height: 100%;
+}
+
+.fill{
+  height: calc(100vh - 100px);
+}
+
+body {
+  padding-top: 60px; /* space for the top nav bar */
+  margin-right: 30px;
+}
+
+.forgeViewerDA4RExtensionIcon {
+  background-image: url(/img/ForgeViewerDA4R_icon.png);
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#forge-viewer {
+    width: 100%;
+}
+
+#user-hubs {
+    overflow: auto;
+    width: 100%;
+    height: calc(100vh - 150px);
+}
+
+#grid-object-placement-tool {
+    background-color: rgba(34,34,34,.9);
+}
+
+#grid-object-placement-tool .generate-design-title {
+    padding: 0px 10px;
+}
+
+#grid-object-placement-tool .generate-design-parameter-title {
+    margin: 8px 0px 2px 0px;
+}
+
+
+#grid-object-placement-tool button.dropdown-toggle {
+    width: 225px;
+    margin: 0px;
+}
+
+#grid-object-placement-tool button.btn-generate-design {
+    margin: 10px 0px;
+    width: 160px;
+    height: 30px;
+    padding: 0px 12px 4px 12px;
+}
+
+#grid-object-placement-tool div.input-text {
+    margin: 10px 0px 10px 0px;
+    width: 258px;
+}
+
+#grid-object-placement-tool .form-group-sm .form-control {
+    height: 18px !important;
+}
+
+#grid-object-placement-tool .input-group-text {
+    width: 230px;
+}
+
+#grid-object-placement-tool .docking-panel-title {
+    font-size: 18px;
+}
+
+#grid-object-placement-tool div.select-element-input-group {
+    width: 280px;
+}
+
+#grid-object-placement-tool .select-element-uniqueid {
+    height: 34px;
+    direction: ltr;
+    margin: 0;
+    padding: 7px 12px 8px 40px;
+    font-size: 12px;
+    width: 100%;
+    outline: none;
+    position: relative;
+    box-sizing: border-box;
+    line-height: normal;
+    z-index: 1;
+}
+
+#grid-object-placement-tool .room-list {
+    height: 340px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#grid-object-placement-tool .alert-message {
+    color: red;
+}
+

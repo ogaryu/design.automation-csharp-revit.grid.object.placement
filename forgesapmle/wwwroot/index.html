@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Autodesk Forge Design Automation for Revit - Grid Object Placement Sample</title>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="https://github.com/Autodesk-Forge/learn.forge.viewhubmodels/raw/master/img/favicon.ico">
+    <!-- Common packages: jQuery, Bootstrap, jsTree -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/jstree.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/themes/default/style.min.css" />
+    <!-- .NET SignalR -->
+    <script src="//unpkg.com/@aspnet/signalr@1.1.0/dist/browser/signalr.min.js"></script>
+    <!-- Autodesk Forge Viewer files -->
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css" type="text/css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+    <!-- this project files -->
+    <link href="css/main.css" rel="stylesheet" />
+    <script src="js/ForgeTree.js"></script>
+    <script src="js/ForgeViewer.js"></script>
+    <script src="/js/ForgeViewerDA4RExtension.js"></script>
+</head>
+
+<body>
+    <!-- Fixed navbar by Bootstrap: https://getbootstrap.com/examples/navbar-fixed-top/ -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav left">
+                <li>
+                    <a href="http://developer.autodesk.com" target="_blank">
+                        <img alt="Autodesk Forge" src="//developer.static.autodesk.com/images/logo_forge-2-line.png" height="20">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- End of navbar -->
+    <div class="container-fluid fill">
+        <div class="row fill">
+            <div class="col-sm-3 fill">
+                <div class="panel panel-default fill">
+                    <div class="panel-heading" data-toggle="tooltip" style="padding: 0px;">
+                        <span id="user-info"></span>
+                        <span id="refresh-hubs" class="glyphicon glyphicon-refresh" style="cursor: pointer; display: none" title="Refresh list of files"></span>
+                        <span id="sign-out" class="glyphicon glyphicon-log-out" style="margin-top:5px;cursor: pointer; float: right; display: none" title="Sign out"> </span>
+                    </div>
+                    <div id="user-hubs">
+                        <div style="padding-top: 100px; text-align: center;">
+                            <button class="btn btn-lg btn-default" id="autodeskSigninButton">
+                                <img src="https://github.com/Autodesk-Forge/bim360appstore-data.management-nodejs-transfer.storage/raw/master/www/img/autodesk_text.png"
+                                     height="20"> Sign in
+                            </button>
+                            <br />
+                            <br />
+                            <br /> You may also need to provision your<br /> BIM 360 Docs account for this app.<br />
+                            <a href="https://forge.autodesk.com/blog/bim-360-docs-provisioning-forge-apps">Learn more</a>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9 fill">
+                <div id="forge-viewer"></div>
+            </div>
+        </div>
+    </div>
+    <template id="da4r-content">
+        <div class="docking-panel-close"></div>
+        <div class="docking-panel-footer">
+            <div class="docking-panel-footer-resizer"></div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="generate-design-title"><h5 class="generate-design-parameter-title">Select Room</h5></div>
+                <div class="col-xs-3">
+                    <div id="dropdown-room" class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" id="btn-select-room" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Room List
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu room-list" aria-labelledby="dLabel"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="generate-design-title"><h5 class="generate-design-parameter-title">Select Family</h5></div>
+                <div class="form-group form-group-sm form-input-text">
+                    <div class="col-xs-3">
+                        <div class="input-group input-group-text">
+                            <input type="text" id="family-file" class="form-control" placeholder="Select Family Project on Tree View" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="generate-design-title"><h5 class="generate-design-parameter-title">Distance between objects - position X</h5></div>
+                <div class="form-group form-group-sm">
+                    <div class="col-xs-1">
+                        <div class="input-group">
+                            <span class="input-group-addon">Min</span>
+                            <input type="number" id="distance-x-min" class="form-control" aria-label="..." min="1" max="10" value="4">
+                        </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <div class="input-group">
+                            <span class="input-group-addon">Max</span>
+                            <input type="number" id="distance-x-max" class="form-control" aria-label="..." min="1" max="20"  value="10">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="generate-design-title"><h5 class="generate-design-parameter-title">Distance between objects - position Y</h5></div>
+                <div class="form-group form-group-sm">
+                    <div class="col-xs-1">
+                        <div class="input-group">
+                            <span class="input-group-addon">Min</span>
+                            <input type="number" id="distance-y-min" class="form-control" aria-label="..." min="1" max="10" value="4">
+                        </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <div class="input-group">
+                            <span class="input-group-addon">Max</span>
+                            <input type="number" id="distance-y-max" class="form-control" aria-label="..." min="1" max="20" value="10">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="generate-design-title"><h5 class="generate-design-parameter-title">Minimum distance from objects to wall</h5></div>
+                <div class="form-group form-group-sm">
+                    <div class="col-xs-1">
+                        <div class="input-group">
+                            <span class="input-group-addon">Min</span>
+                            <input type="number" id="distance-wall-min" class="form-control" aria-label="..." min="1" max="10" value="4">
+                        </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <div class="input-group">
+                            <span class="input-group-addon">Max</span>
+                            <input type="number" id="distance-wall-max" class="form-control" aria-label="..." min="1" max="20" value="8">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="generate-design-title"><h5 class="generate-design-parameter-title">Select Output Folder</h5></div>
+                <div class="form-group form-group-sm form-input-text">
+                    <div class="col-xs-3">
+                        <div class="input-group input-group-text">
+                            <input type="text" id="output-folder" class="form-control" placeholder="Select Output Folder on Tree View" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="generate-design-title"><h5 class="generate-design-parameter-title">Select Grid</h5></div>
+                <div class="col-xs-3">
+                    <div id="dropdown-grid" class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" id="btn-select-grid" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Grid Type
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu grid-list" aria-labelledby="dLabel">
+                            <li><a href="#" class='dropdown-item' data-grid-id="0">Rectangular</a></li>
+                            <li><a href="#" class='dropdown-item' data-grid-id="1">Stepped</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    <button type="button" class="btn btn-info btn-generate-design" data-loading-text="Generating...">Generate Design   <span class="glyphicon glyphicon-cloud" aria-hidden="true" style="font-size: 21px; top: 7px"></span></button>
+                </div>
+            </div>
+        </div>
+    </template>
+</body>
+<iframe id="hidden-frame" style="visibility: hidden; display: none" />
+</html>

@@ -13,6 +13,6 @@ In an iterative process each “generation” will export and save its best fit 
 
 It includes 2 projects and postman collection:
 
-- .NET Framework plugins for **[Revit](DA4R_GridObjectPlacement/)** . See each readme for plugin details.
-- .NET Core web interface to invoke Design Automation v3 and get results. See [readme](forgesample/) for more information.
-- Postman Collection to register appbundle and activity on Design Automation.
+- .NET Framework plugins for Revit. See **[readme](DA4R_GridObjectPlacement/)** for plugin details.
+- .NET Core web interface to invoke Design Automation v3 and get results. See **[readme](forgesample/)** for more information.
+- **[Postman Collection](postman/)** to register appbundle and activity on Design Automation.

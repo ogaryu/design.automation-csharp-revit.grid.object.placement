@@ -8,16 +8,15 @@
 [![Data-Management](https://img.shields.io/badge/Data%20Management-v1-green.svg)](http://developer.autodesk.com/)
 [![Design-Automation](https://img.shields.io/badge/Design%20Automation-v3-green.svg)](http://developer.autodesk.com/)
 
-![Basic](https://img.shields.io/badge/Level-Basic-blue.svg)
+![Advanced](https://img.shields.io/badge/Level-Advanced-blue.svg)
 
 # Description
 
-1. Login to BIM 360 and select a Revit project file stored in BIM 360 project folder, then you can see the model in the Forge Viewer.
-2. Launch the Custom Extension in the Viewer.
-3. Select a room and select the Revit project file in which the family instances are located.
-4. Set the input parameter values for the variables and select the output folder.
-5. Select a grid pattern. We have selected the step grid pattern.
-6. Click the Generate button, and after a few tens of minutes, you will get a ZIP file including multiple DWG file with the layout where the addin could place the most instances per generation.
+To run this sample,the firt step is to prepare the app bundle package.
+See **[readme](DA4R_GridObjectPlacement/)** for plugin details.
+
+The second step is to create Appbundle and Activity through Postman collection.
+See **[readme](postman/)** for the details.
 
 ## Thumbnail
 
@@ -36,7 +35,7 @@
 
 Clone this project or download it. It's recommended to install [GitHub desktop](https://desktop.github.com/). To clone it via command line, use the following (**Terminal** on MacOSX/Linux, **Git Shell** on Windows):
 
-    git clone https://github.com/autodesk-forge/learn.forge.designautomation
+    git clone https://github.com/ogaryu/design.automation-csharp-revit.grid.object.placement.git
     
 **ngrok**
 
@@ -73,7 +72,17 @@ At the `.vscode\launch.json`, find the env vars and add your Forge Client ID, Se
 
 **How to use this sample**
 
-Open `http://localhost:3000` to start the app, if first time, click on `Define Activity`, enter new `width` & `height` values, select the input file (use from **sample files** folder), select the `Activity` and, finally, `Start workitem`. 
+1. Upload a sample family project in BIM360 [Project Files] folder. You can find the sample in [sample file] folder.
+2. Create a new folder in BIM360 [Project Files] folder to export output zip file. 
+3. Run the forgesample project.
+4. Open `http://localhost:3000` to start the app.
+5. Login to BIM 360 and select a Revit project file stored in BIM 360 project folder, then you can see the model in the Forge Viewer.
+6. Launch the Custom Extension in the Viewer.
+7. Select a room and select the Revit project file in which the family instances are located.
+8. Set the input parameter values for the variables and select the output folder.
+9. Select a grid pattern. We have selected the step grid pattern.
+10. Click the Generate button, and after a few tens of minutes, you will get a ZIP file including multiple DWG file with the layout where the addin could place the most instances per generation.
+
 
 # Further Reading
 

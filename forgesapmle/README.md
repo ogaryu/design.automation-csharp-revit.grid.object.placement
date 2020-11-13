@@ -13,14 +13,14 @@
 # Description
 
 To run this sample,the firt step is to prepare the app bundle package.
-See **[readme](DA4R_GridObjectPlacement/)** for plugin details.
+See **[readme](https://github.com/ogaryu/design.automation-csharp-revit.grid.object.placement/tree/main/DA4R_GridObjectPlacement/)** for plugin details.
 
 The second step is to create Appbundle and Activity through Postman collection.
-See **[readme](postman/)** for the details.
+See **[readme](https://github.com/ogaryu/design.automation-csharp-revit.grid.object.placement/tree/main/postman/)** for the details.
 
-## Thumbnail
+## Demo Video
 
-![thumbnail](../thumbnail.gif)
+In preparation.
 
 # Setup
 

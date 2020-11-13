@@ -8,16 +8,16 @@
 
 # Description
 
-Revit 2021 introduced the generative design functionality which is available to all AEC Collections subscribers.
-[Have You Tried - Generative Design](https://help.autodesk.com/view/RVT/2021/ENU/?guid=GUID-A2EC3302-CB0E-4648-A3A5-6EE0119119CD)
+Revit 2021 introduced the generative design functionality which is available to all AEC Collections subscribers.  
+Please see [Have You Tried - Generative Design](https://help.autodesk.com/view/RVT/2021/ENU/?guid=GUID-A2EC3302-CB0E-4648-A3A5-6EE0119119CD)
 
 The Generative Design tool allows you to easily enter your design criteria.
-When the iterations are complete, you can review the potential solutions.
-[Generative Design](https://help.autodesk.com/view/RVT/2021/ENU/?guid=GUID-492527AD-AAB9-4BAA-82AE-9B95B6C3E5FE)
+When the iterations are complete, you can review the potential solutions.  
+Please see [Generative Design](https://help.autodesk.com/view/RVT/2021/ENU/?guid=GUID-492527AD-AAB9-4BAA-82AE-9B95B6C3E5FE)
 
 The tools provide 6 Dynamo samples including grid object placement sample.
-This plug-in is converted from Grid Object Placement sample study to Revit DB application.
-[Grid Object Placement](https://help.autodesk.com/view/RVT/2021/ENU/?guid=GUID-DADBD42E-84D8-4C41-B651-111121E13E8C)
+This plug-in is converted from Grid Object Placement sample study to Revit DB application.  
+Please see [Grid Object Placement](https://help.autodesk.com/view/RVT/2021/ENU/?guid=GUID-DADBD42E-84D8-4C41-B651-111121E13E8C)
 
 Currently, “Generative Design tools" is not exposed in Revit API, this sample is using the open source library named [GeneticSharp](https://github.com/giacomelli/GeneticSharp).
 
